@@ -30,6 +30,7 @@ int main (void) {    // used to characterize the dynamics of the unknown plant
        // printf("Level: %d\n", result);
 	fprintf(fp, "%d	%d\n", i, result);	
     }
+    fprintf(fp, "---------------------\n\n");
     }
     fclose(fp);
     return 0;
