@@ -1,4 +1,8 @@
-for (( i = 0 ;  i <= 1023;  i++  ))
+for (( i = 0 ;  i <= 1023;  i++  )) # disturbance
 do
-./steadytest $i
+
+	for (( j = 0 ;  j <= 1023;  j++  )) # control
+	do
+		./steadytest $i $j
+	done
 done

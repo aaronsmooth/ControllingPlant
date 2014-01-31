@@ -7,8 +7,8 @@
 
 int main (int argc, char * argv[]) {    // used to characterize the dynamics of the unknown plant
 	int i, j, result;
-	int disturbance = 0;
-	int control = atoi(argv[1]);
+	int disturbance = atoi(argv[1]);
+	int control = atoi(argv[2]);
 	FILE *fp;
 	fp = fopen("steadytests.txt", "a");
 	if(fp == NULL) exit (-1);
@@ -16,7 +16,7 @@ int main (int argc, char * argv[]) {    // used to characterize the dynamics of 
 	fprintf(fp, "Disturbance: %d\n\n", disturbance);
 	fprintf(fp, "Step	Output\n");
 	int plant(int disturbance, int control);
-	for(i=0;i<=1000;i++) {
+	for(i=0;i<=500;i++) {
 		// when you have the ADC and DAC interfaces completed you will get and put values like this:
 		// result = plant(getDisturb(), getControl()); // get these signals from respective ADCs
 		result = plant(disturbance, control);    // these can be varied from run to run to see how the plant behaves
