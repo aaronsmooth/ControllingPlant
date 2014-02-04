@@ -22,14 +22,14 @@ int setup() {
 }
 
 int getControl() {
-	return (analogRead(BASE) ? analogRead(Base) : NO_ERROR);
+	return analogRead(BASE);
 }
 int getDisturb() {
-	return (analogRead(BASE + 1) ? analogRead(Base) : NO_ERROR);
+	return analogRead(BASE + 1);
 }
 
 int putResult(int value) {
-	return wiringPiI2CWriteReg8(fd, (value >> 8) & 0xFF), 
+	return wiringPiI2CWriteReg8(fd, (value >> 8) & 0xFF, 
 value & 0xFF);
 }
 int main (int argc, char * argv[]) {    // used to characterize the dynamics of the unknown plant
