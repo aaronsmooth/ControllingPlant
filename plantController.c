@@ -63,7 +63,7 @@ int main (int argc, char * argv[]) {    // used to characterize the dynamics of 
         printf("Output: %d  |   Setpoint: %d\n", output, setPoint);
         flag = FALSE;        // reset flag
 		result = calculateControl(output, setPoint);
-		putResult(result);    // to DAC output
+		putResult(result*4);    // to DAC output
         printf("Control-Out: %d\n", result);
         digitalWrite(OUTPUT_PIN, 1); // inform the other pi
         delay(1000);

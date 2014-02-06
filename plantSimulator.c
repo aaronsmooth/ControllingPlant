@@ -56,11 +56,10 @@ int main (int argc, char * argv[]) {    // used to characterize the dynamics of 
         disturb = getDisturb();
         control = getControl();
         printf("Disturb: %d     |   Control: %d\n", disturb, control);
-		//digitalWrite(INPUT_PIN, FALSE); // reset pin value
         flag = FALSE;        // reset flag
 		result = plant(disturb, control); // get these signals from respective ADCs
 		printf("Output to Controller: %d\n", result);
-		putResult(result);    // to DAC output
+		putResult(result*4);    // to DAC output
 		digitalWrite(OUTPUT_PIN, 1); // signal the other pi
 		delay(1000); // wait a millisecond
 		digitalWrite(OUTPUT_PIN, 0); // clear the signal line
