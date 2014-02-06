@@ -36,8 +36,7 @@ int getDisturb() {
 }
 
 int putResult(int value) {
-	return wiringPiI2CWriteReg8(fd, (value >> 8) & 0xFF, 
-value & 0xFF);
+	return wiringPiI2CWriteReg8(fd, (value >> 8) & 0xFF, value & 0xFF);
 }
 
 void interrupt(void){
@@ -50,14 +49,14 @@ int main (int argc, char * argv[]) {    // used to characterize the dynamics of 
 	flag = FALSE;   // wait for plant controller to signal
 
 	for(;;) {
-        	printf("Waiting for interrupt.. \n");
-        	while (!flag);       // wait for interrupt to happen
-        	printf("interrupted.. \n");
-        	disturb = getDisturb();
-        	control = getControl();
-        	printf("Disturb: %d     |   Control: %d\n", disturb, control);
+        printf("Waiting for interrupt.. \n");
+        while (!flag);       // wait for interrupt to happen
+        printf("interrupted.. \n");
+        disturb = getDisturb();
+        control = getControl();
+        printf("Disturb: %d     |   Control: %d\n", disturb, control);
 		//digitalWrite(INPUT_PIN, FALSE); // reset pin value
-        	flag = FALSE;        // reset flag
+        flag = FALSE;        // reset flag
 		result = plant(disturb, control); // get these signals from respective ADCs
 		printf("Output to Controller: %d\n", result);
 		putResult(result);    // to DAC output
