@@ -7,8 +7,15 @@
 #include <mcp3004.h>
 #include "global.h"
 
+//constants
+const float kp = 1.1789;
+const float ki = 1.0615;
+const float kd = 0.8234;
+const float IntegralThreshold = 25;
+
 //variables
-int fd, flag;
+int fd, flag, error, previousValue = 1000, control;
+float p, i = 0, d;
 
 //prototypes
 int calculateControl();
@@ -28,8 +35,25 @@ int setup() {
 }
 
 int calculateControl(int output, int setPoint){
-    // using transfer function calculate the control
-    return 40;
+    error = setPoint - output;
+    p = error * kp;
+    i = i + error;
+    if(i > IntegralThreshold){
+        i = IntegralThreshold;
+    }
+    if(i < -IntegralThreshold){
+        i = -IntegralThreshold;
+    }
+    i = i * ki;
+    d = (output - previousValue) * kd;
+    previousValue = output;
+    printf("p %6.3f\ni %6.3f\nd %6.3f\n", p, i, d);
+    if(p + i + d < 0){
+        control = 0;
+    } else {
+        control = 40;
+    }
+    return control;
 }
 
 int getOutput() {
@@ -66,7 +90,7 @@ int main (int argc, char * argv[]) {    // used to characterize the dynamics of 
 		putResult(result*4);    // to DAC output
         printf("Control-Out: %d\n", result);
         digitalWrite(OUTPUT_PIN, 1); // inform the other pi
-        delay(1000);
+        //delay(1000);
 		digitalWrite(OUTPUT_PIN, 0); // clear the signal line
 	}
 	return NO_ERROR;
