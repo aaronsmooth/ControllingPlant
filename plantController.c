@@ -51,7 +51,10 @@ int calculateControl(int output, int setPoint){
     if(p + i + d < 0){
         control = 0;
     } else {
-        control = 1023;
+        control = floor(p + i + d);
+        if(control > 1023){
+            control = 1023;
+        }
     }
     return control;
 }
@@ -90,7 +93,7 @@ int main (int argc, char * argv[]) {    // used to characterize the dynamics of 
 		putResult(result*4);    // to DAC output
         printf("Control-Out: %d\n", result);
         digitalWrite(OUTPUT_PIN, 1); // inform the other pi
-        delay(1); // wait a millisecond
+        delay(10); // wait 10 milliseconds to help the terminal have time to draw
 		digitalWrite(OUTPUT_PIN, 0); // clear the signal line
 	}
 	return NO_ERROR;

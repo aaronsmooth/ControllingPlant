@@ -61,7 +61,7 @@ int main (int argc, char * argv[]) {    // used to characterize the dynamics of 
 		printf("Output to Controller: %d\n", result);
 		putResult(result*4);    // to DAC output
 		digitalWrite(OUTPUT_PIN, 1); // signal the other pi
-		delay(1); // wait a millisecond
+		delay(10); // wait 10 milliseconds to help the terminal have time to draw
 		digitalWrite(OUTPUT_PIN, 0); // clear the signal line
 	}
 	return NO_ERROR;
