@@ -22,7 +22,7 @@ int setup() {
 	fd = wiringPiI2CSetup(DEVICE_ID);
 	mcp3004Setup(BASE, CHANNEL);
 	wiringPiSetupSys();
-    pinMode(OUTPUT_PIN, OUTPUT);
+	pinMode(OUTPUT_PIN, OUTPUT);
 	wiringPiISR(INPUT_PIN, INT_EDGE_RISING, &interrupt);
 	return NO_ERROR;
 }
@@ -41,8 +41,7 @@ int getSetpoint() {
 }
 
 int putResult(int value) {
-	return wiringPiI2CWriteReg8(fd, (value >> 8) & 0xFF, 
-value & 0xFF);
+	return wiringPiI2CWriteReg8(fd, (value >> 8) & 0xFF, value & 0xFF);
 }
 
 void interrupt(void){
@@ -52,21 +51,21 @@ void interrupt(void){
 int main (int argc, char * argv[]) {    // used to characterize the dynamics of the unknown plant
 	int result, output, setPoint;
 	setup();
-    flag = TRUE;    // initialize flag to be true to avoid deadlock between two pi
+	flag = TRUE;    // initialize flag to be true to avoid deadlock between two pi
 
 	for(;;) {
-        printf("Waiting for interrupt.. \n");
-        while (!flag);       // wait for interrupt to happen
-        printf("interrupted.. \n");
-        output = getOutput();
-        setPoint = getSetpoint();
-        printf("Output: %d  |   Setpoint: %d\n", output, setPoint);
-        digitalWrite(INPUT_PIN, TRUE); // reset pin
-        flag = FALSE;        // reset flag
+        	printf("Waiting for interrupt.. \n");
+        	while (!flag);       // wait for interrupt to happen
+        	printf("interrupted.. \n");
+        	output = getOutput();
+        	setPoint = getSetpoint();
+        	printf("Output: %d  |   Setpoint: %d\n", output, setPoint);
+        	flag = FALSE;        // reset flag
 		result = calculateControl(output, setPoint);
 		putResult(result);    // to DAC output
-        printf("Control-Out: %d\n", result);
-        digitalWrite(OUTPUT_PIN, TRUE); // inform the other pi
+        	printf("Control-Out: %d\n", result);
+        	digitalWrite(OUTPUT_PIN, HIGH); // inform the other pi
+		digitalWrite(OUTPUT_PIN, LOW); // clear the signal line
 	}
 	return NO_ERROR;
 }

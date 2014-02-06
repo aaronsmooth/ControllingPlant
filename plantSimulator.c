@@ -22,7 +22,7 @@ int setup() {
 	fd = wiringPiI2CSetup(DEVICE_ID);
 	mcp3004Setup(BASE, CHANNEL);
 	wiringPiSetupSys();
-    pinMode(OUTPUT_PIN, OUTPUT);
+	pinMode(OUTPUT_PIN, OUTPUT);
 	wiringPiISR(INPUT_PIN, INT_EDGE_RISING, &interrupt);
 	return NO_ERROR;
 }
@@ -47,21 +47,23 @@ void interrupt(void){
 int main (int argc, char * argv[]) {    // used to characterize the dynamics of the unknown plant
 	int result, disturb, control;
 	setup();
-    flag = FALSE;   // wait for plant controller to signal
+	flag = FALSE;   // wait for plant controller to signal
 
 	for(;;) {
-        printf("Waiting for interrupt.. \n");
-        while (!flag);       // wait for interrupt to happen
-        printf("interrupted.. \n");
-        disturb = getDisturb();
-        control = getControl();
-        printf("Disturb: %d     |   Control: %d\n", disturb, control);
-        digitalWrite(INPUT_PIN, FALSE); // reset pin value
-        flag = FALSE;        // reset flag
+        	printf("Waiting for interrupt.. \n");
+        	while (!flag);       // wait for interrupt to happen
+        	printf("interrupted.. \n");
+        	disturb = getDisturb();
+        	control = getControl();
+        	printf("Disturb: %d     |   Control: %d\n", disturb, control);
+		//digitalWrite(INPUT_PIN, FALSE); // reset pin value
+        	flag = FALSE;        // reset flag
 		result = plant(disturb, control); // get these signals from respective ADCs
 		printf("Output to Controller: %d\n", result);
 		putResult(result);    // to DAC output
-        digitalWrite(OUTPUT_PIN, TRUE); // inform the other pi
+		digitalWrite(OUTPUT_PIN, HIGH); // signal the other pi
+		//delay(1); // wait a millisecond
+		digitalWrite(OUTPUT_PIN, LOW); // clear the signal line
 	}
 	return NO_ERROR;
 }
