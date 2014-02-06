@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
+#include <wiringPi.h>
 #include <wiringPiI2C.h>
 #include <mcp3004.h>
 #include "global.h"
@@ -57,7 +58,7 @@ int main (int argc, char * argv[]) {    // used to characterize the dynamics of 
         while (!flag);       // wait for interrupt to happen
         printf("interrupted.. \n");
         output = getOutput();
-        setPoint = getSetPoint();
+        setPoint = getSetpoint();
         printf("Output: %d  |   Setpoint: %d\n", output, setpoint);
         digitalWrite(INPUT_PIN, TRUE); // reset pin
         flag = FALSE;        // reset flag
