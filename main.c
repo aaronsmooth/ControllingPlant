@@ -10,9 +10,7 @@ int main(int argc, char * argv[]) {
 	wiringPiSetupSys(); // Setup wiringPi
 
 	for(;;) {
-		
 		//printf("ADC: %d\n", temp); // BASE = 123
-		
 	//	printf("ADC: %d\n", analogRead(124)); // BASE = 123
 	}
 	return NO_ERROR;

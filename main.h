@@ -1,6 +1,5 @@
 /*
  * main.h:
- *	Measuring temperature with a thermistor.
  *
  *	@author Pasang Sherpa
  *	@author	Aaron Nelson
@@ -27,4 +26,8 @@
 #define DEVICE_ID	0x63
 /********* END I2C *******/
 
+/******** PIN ***********/
+#define INPUT_PIN       1  // BCM GPIO 18 = WiringPi Pin 1
+#define OUTPUT_PIN       0  // BCM GPIO 17 = WiringPi Pin 0
+/****** END PIN *********/
 

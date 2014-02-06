@@ -5,7 +5,7 @@
 #include "main.h"
 
 //variables
-int fd;
+int fd, flag;
 
 //prototypes
 int plant(int disturbance, int control);
@@ -18,12 +18,15 @@ int setup() {
 	fd = wiringPiI2CSetup(DEVICE_ID);
 	mcp3004Setup(BASE, CHANNEL);
 	wiringPiSetupSys();
+    pinMode(OUTPUT_PIN, OUTPUT);
+	wiringPiISR(INPUT_PIN, INT_EDGE_RISING, &interrupt);
 	return NO_ERROR;
 }
 
 int getControl() {
 	return analogRead(BASE);
 }
+
 int getDisturb() {
 	return analogRead(BASE + 1);
 }
@@ -32,15 +35,23 @@ int putResult(int value) {
 	return wiringPiI2CWriteReg8(fd, (value >> 8) & 0xFF, 
 value & 0xFF);
 }
+
+void interrupt(){
+   flag = TRUE;
+}
+
 int main (int argc, char * argv[]) {    // used to characterize the dynamics of the unknown plant
 	int i, j, result;
 	setup();
 
 	for(;;) {
-		// when you have the ADC and DAC interfaces completed you will get and put values like this:
+        printf("Waiting for interrupt.. ");
+        while (!flag);       // wait for interrupt to happen
+        printf("interrupted.. ")
+        flag = FALSE;        // reset flag
 		result = plant(getDisturb(), getControl()); // get these signals from respective ADCs
 		putResult(result);    // to DAC output
-		// printf("Level: %d\n", result);
+        digitalWrite(OUTPUT_PIN, TRUE); // inform the other pi
 	}
 	return NO_ERROR;
 }
