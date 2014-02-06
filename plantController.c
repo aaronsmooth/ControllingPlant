@@ -11,7 +11,8 @@
 const float kp = 1.5;
 const float ki = 0.5;
 const float kd = 0.3;
-const float IntegralThreshold = 1023;
+const float UpperIntegralThreshold = 1023;
+const float LowerIntegralThreshold = -150;
 
 //variables
 int fd, flag, error, previousValue = 1000, control;
@@ -37,12 +38,12 @@ int setup() {
 int calculateControl(int output, int setPoint){
     error = setPoint - output;
     p = error * kp;
-    i = (i + error) * ki;
-    if(i > IntegralThreshold){
-        i = IntegralThreshold;
+    i = i + (error * ki);
+    if(i > UpperIntegralThreshold){
+        i = UpperIntegralThreshold;
     }
-    if(i < -IntegralThreshold){
-        i = -IntegralThreshold;
+    if(i < LowerIntegralThreshold){
+        i = LowerIntegralThreshold;
     }
     d = (output - previousValue) * kd;
     previousValue = output;
