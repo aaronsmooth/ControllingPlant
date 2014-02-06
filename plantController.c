@@ -8,10 +8,10 @@
 #include "global.h"
 
 //constants
-const float kp = 1.1789;
-const float ki = 1.0615;
-const float kd = 0.8234;
-const float IntegralThreshold = 25;
+const float kp = 1.5;
+const float ki = 0.5;
+const float kd = 0.3;
+const float IntegralThreshold = 1023;
 
 //variables
 int fd, flag, error, previousValue = 1000, control;
@@ -37,14 +37,13 @@ int setup() {
 int calculateControl(int output, int setPoint){
     error = setPoint - output;
     p = error * kp;
-    i = i + error;
+    i = (i + error) * ki;
     if(i > IntegralThreshold){
         i = IntegralThreshold;
     }
     if(i < -IntegralThreshold){
         i = -IntegralThreshold;
     }
-    i = i * ki;
     d = (output - previousValue) * kd;
     previousValue = output;
     printf("p %6.3f\ni %6.3f\nd %6.3f\n", p, i, d);
