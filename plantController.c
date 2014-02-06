@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
+#include <wiringPiI2c.h>
+#include <mcp3004.h>
 #include "global.h"
 
 //variables
@@ -46,7 +48,7 @@ void interrupt(){
 }
 
 int main (int argc, char * argv[]) {    // used to characterize the dynamics of the unknown plant
-	int i, j, result, output, setPoint;
+	int result, output, setPoint;
 	setup();
     flag = TRUE;    // initialize flag to be true to avoid deadlock between two pi
 

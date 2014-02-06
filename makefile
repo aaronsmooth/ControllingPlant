@@ -5,18 +5,16 @@ CFLAGS = $(DEBUG) -Wall $(INCLUDE) -Winline -pipe
 LDFLAGS = -L/usr/local/lib
 LDLIBS = -lwiringPi -lpthread -lm
 SRC = plantSimulator.c
+PLANTOB = /home/pi/ControllingPlant/plantSim.o
 OBJ = $(SRC:.c=.o)
 BINS = $(SRC:.c=)
 
-run: main
-	./main -d 0 
+run: sim
+	./sim
 
-debug: main
-	./main -d 1
-
-main: plantSimulator.o
+sim: plantSimulator.o
 	@echo [link]
-	@$(CC) -o $@ plantSimulaor.o $(LDFLAGS) $(LDLIBS)
+	@$(CC) -o $@ plantSimulaor.o $(PLANTOB) $(LDFLAGS) $(LDLIBS)
 	
 .c.o:
 	@echo [CC] $<
@@ -24,9 +22,3 @@ main: plantSimulator.o
 
 clean: 
 	rm -f $(OBJ) *~ core tags $(BINS)
-
-tags: $(SRC)
-	@echo [ctags]
-	@ctags $(SRC)
-
-depend: makedepend -Y $(SRC)

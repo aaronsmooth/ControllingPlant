@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
+#include <wiringPi.h>
+#include <mcp3004.h>
+#include <wiringPiI2C.h>
 #include "global.h"
 
 //variables
@@ -13,6 +16,7 @@ int getControl();
 int getDisturb();
 int putResult();
 int setup();
+void interrupt(void);
 
 int setup() {
 	fd = wiringPiI2CSetup(DEVICE_ID);
@@ -36,12 +40,12 @@ int putResult(int value) {
 value & 0xFF);
 }
 
-void interrupt(){
+void interrupt(void){
    flag = TRUE;
 }
 
 int main (int argc, char * argv[]) {    // used to characterize the dynamics of the unknown plant
-	int i, j, result, disturb, control;
+	int result, disturb, control;
 	setup();
     flag = FALSE;   // wait for plant controller to signal
 
@@ -50,6 +54,7 @@ int main (int argc, char * argv[]) {    // used to characterize the dynamics of 
         while (!flag);       // wait for interrupt to happen
         printf("interrupted.. \n");
         disturb = getDisturb();
+        control = getControl();
         printf("Disturb: %d     |   Control: %d\n", disturb, control);
         digitalWrite(INPUT_PIN, FALSE); // reset pin value
         flag = FALSE;        // reset flag
