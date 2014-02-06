@@ -8,9 +8,9 @@
 int fd, flag;
 
 //prototypes
-int plant(int disturbance, int control);
-int getControl();
-int getDisturb();
+int calculateControl();
+int getOutput();
+int getSetpoint();
 int putResult();
 int setup();
 
@@ -23,11 +23,15 @@ int setup() {
 	return NO_ERROR;
 }
 
-int getControl() {
+int calculateControl(int output, int setPoint){
+    // using transfer function calculate the control
+}
+
+int getOutput() {
 	return analogRead(BASE);
 }
 
-int getDisturb() {
+int getSetpoint() {
 	return analogRead(BASE + 1);
 }
 
@@ -43,14 +47,14 @@ void interrupt(){
 int main (int argc, char * argv[]) {    // used to characterize the dynamics of the unknown plant
 	int i, j, result;
 	setup();
-    flag = FALSE;   // wait for plant controller to signal
-
+    flag = TRUE;    // initialize flag to be true to avoid deadlock between two pi
+    
 	for(;;) {
         printf("Waiting for interrupt.. ");
         while (!flag);       // wait for interrupt to happen
         printf("interrupted.. ")
         flag = FALSE;        // reset flag
-		result = plant(getDisturb(), getControl()); // get these signals from respective ADCs
+		result = calculateControl(getOutput(), getSetPoint());
 		putResult(result);    // to DAC output
         digitalWrite(OUTPUT_PIN, TRUE); // inform the other pi
 	}
