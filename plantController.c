@@ -16,6 +16,7 @@ int getOutput();
 int getSetpoint();
 int putResult();
 int setup();
+void interrupt(void);
 
 int setup() {
 	fd = wiringPiI2CSetup(DEVICE_ID);
@@ -44,7 +45,7 @@ int putResult(int value) {
 value & 0xFF);
 }
 
-void interrupt(){
+void interrupt(void){
    flag = TRUE;
 }
 
@@ -59,10 +60,10 @@ int main (int argc, char * argv[]) {    // used to characterize the dynamics of 
         printf("interrupted.. \n");
         output = getOutput();
         setPoint = getSetpoint();
-        printf("Output: %d  |   Setpoint: %d\n", output, setpoint);
+        printf("Output: %d  |   Setpoint: %d\n", output, setPoint);
         digitalWrite(INPUT_PIN, TRUE); // reset pin
         flag = FALSE;        // reset flag
-		result = calculateControl(output, setpoint);
+		result = calculateControl(output, setPoint);
 		putResult(result);    // to DAC output
         printf("Control-Out: %d\n", result);
         digitalWrite(OUTPUT_PIN, TRUE); // inform the other pi
