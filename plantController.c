@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
-#include <wiringPiI2c.h>
+#include <wiringPiI2C.h>
 #include <mcp3004.h>
 #include "global.h"
 
