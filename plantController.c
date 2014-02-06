@@ -59,11 +59,11 @@ int calculateControl(int output, int setPoint){
 }
 
 int getOutput() {
-	return analogRead(BASE);
+	return analogRead(BASE) < 25 ? analogRead(BASE) - 5 : analogRead(BASE);
 }
 
 int getSetpoint() {
-	return analogRead(BASE + 1);
+	return analogRead(BASE + 1) < 25 ? analogRead(BASE + 1) - 5 : analogRead(BASE + 1);
 }
 
 int putResult(int value) {

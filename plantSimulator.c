@@ -28,11 +28,11 @@ int setup() {
 }
 
 int getControl() {
-	return analogRead(BASE);
+    return analogRead(BASE) < 25 ? analogRead(BASE) - 5 : analogRead(BASE);
 }
 
 int getDisturb() {
-	return analogRead(BASE + 1);
+	return analogRead(BASE + 1) < 25 ? analogRead(BASE + 1) - 5 : analogRead(BASE + 1);
 }
 
 int putResult(int value) {
