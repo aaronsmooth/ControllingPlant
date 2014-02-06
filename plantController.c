@@ -29,7 +29,7 @@ int setup() {
 
 int calculateControl(int output, int setPoint){
     // using transfer function calculate the control
-    return 11;
+    return 40;
 }
 
 int getOutput() {
@@ -56,6 +56,7 @@ int main (int argc, char * argv[]) {    // used to characterize the dynamics of 
 	for(;;) {
         printf("Waiting for interrupt.. \n");
         while (!flag);       // wait for interrupt to happen
+        printf("\ec"); // clear the terminal screen
         printf("interrupted.. \n");
         output = getOutput();
         setPoint = getSetpoint();

@@ -51,6 +51,7 @@ int main (int argc, char * argv[]) {    // used to characterize the dynamics of 
 	for(;;) {
         printf("Waiting for interrupt.. \n");
         while (!flag);       // wait for interrupt to happen
+        printf("\ec"); // clear the terminal screen
         printf("interrupted.. \n");
         disturb = getDisturb();
         control = getControl();
