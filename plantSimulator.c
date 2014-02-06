@@ -21,7 +21,7 @@ void interrupt(void);
 int setup() {
 	fd = wiringPiI2CSetup(DEVICE_ID);
 	mcp3004Setup(BASE, CHANNEL);
-	wiringPiSetupSys();
+	wiringPiSetup();
 	pinMode(OUTPUT_PIN, OUTPUT);
 	wiringPiISR(INPUT_PIN, INT_EDGE_RISING, &interrupt);
 	return NO_ERROR;
@@ -60,9 +60,9 @@ int main (int argc, char * argv[]) {    // used to characterize the dynamics of 
 		result = plant(disturb, control); // get these signals from respective ADCs
 		printf("Output to Controller: %d\n", result);
 		putResult(result);    // to DAC output
-		digitalWrite(OUTPUT_PIN, HIGH); // signal the other pi
-		delay(1); // wait a millisecond
-		digitalWrite(OUTPUT_PIN, LOW); // clear the signal line
+		digitalWrite(OUTPUT_PIN, 1); // signal the other pi
+		delay(1000); // wait a millisecond
+		digitalWrite(OUTPUT_PIN, 0); // clear the signal line
 	}
 	return NO_ERROR;
 }
