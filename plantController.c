@@ -65,6 +65,7 @@ int main (int argc, char * argv[]) {    // used to characterize the dynamics of 
 		putResult(result);    // to DAC output
         printf("Control-Out: %d\n", result);
         digitalWrite(OUTPUT_PIN, HIGH); // inform the other pi
+        delay(1);
 		digitalWrite(OUTPUT_PIN, LOW); // clear the signal line
 	}
 	return NO_ERROR;
