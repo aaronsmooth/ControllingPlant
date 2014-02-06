@@ -46,17 +46,22 @@ void interrupt(){
 }
 
 int main (int argc, char * argv[]) {    // used to characterize the dynamics of the unknown plant
-	int i, j, result;
+	int i, j, result, output, setPoint;
 	setup();
     flag = TRUE;    // initialize flag to be true to avoid deadlock between two pi
 
 	for(;;) {
-        printf("Waiting for interrupt.. ");
+        printf("Waiting for interrupt.. \n");
         while (!flag);       // wait for interrupt to happen
-        printf("interrupted.. ")
+        printf("interrupted.. \n");
+        output = getOutput();
+        setPoint = getSetPoint();
+        printf("Output: %d  |   Setpoint: %d\n", output, setpoint);
+        digitalWrite(INPUT_PIN, TRUE); // reset pin
         flag = FALSE;        // reset flag
-		result = calculateControl(getOutput(), getSetPoint());
+		result = calculateControl(output, setpoint);
 		putResult(result);    // to DAC output
+        printf("Control-Out: %d\n", result);
         digitalWrite(OUTPUT_PIN, TRUE); // inform the other pi
 	}
 	return NO_ERROR;

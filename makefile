@@ -4,7 +4,7 @@ INCLUDE = -I/usr/local/include
 CFLAGS = $(DEBUG) -Wall $(INCLUDE) -Winline -pipe
 LDFLAGS = -L/usr/local/lib
 LDLIBS = -lwiringPi -lpthread -lm
-SRC = main.c
+SRC = plantSimulator.c
 OBJ = $(SRC:.c=.o)
 BINS = $(SRC:.c=)
 
@@ -14,9 +14,9 @@ run: main
 debug: main
 	./main -d 1
 
-main: main.o
+main: plantSimulator.o
 	@echo [link]
-	@$(CC) -o $@ main.o $(LDFLAGS) $(LDLIBS)
+	@$(CC) -o $@ plantSimulaor.o $(LDFLAGS) $(LDLIBS)
 	
 .c.o:
 	@echo [CC] $<

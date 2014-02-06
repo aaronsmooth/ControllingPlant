@@ -41,16 +41,20 @@ void interrupt(){
 }
 
 int main (int argc, char * argv[]) {    // used to characterize the dynamics of the unknown plant
-	int i, j, result;
+	int i, j, result, disturb, control;
 	setup();
     flag = FALSE;   // wait for plant controller to signal
 
 	for(;;) {
-        printf("Waiting for interrupt.. ");
+        printf("Waiting for interrupt.. \n");
         while (!flag);       // wait for interrupt to happen
-        printf("interrupted.. ")
+        printf("interrupted.. \n");
+        disturb = getDisturb();
+        printf("Disturb: %d     |   Control: %d\n", disturb, control);
+        digitalWrite(INPUT_PIN, FALSE); // reset pin value
         flag = FALSE;        // reset flag
-		result = plant(getDisturb(), getControl()); // get these signals from respective ADCs
+		result = plant(disturb, control); // get these signals from respective ADCs
+		printf("Output to Controller: %d\n", result);
 		putResult(result);    // to DAC output
         digitalWrite(OUTPUT_PIN, TRUE); // inform the other pi
 	}
