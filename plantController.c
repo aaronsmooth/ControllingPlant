@@ -25,6 +25,7 @@ int setup() {
 
 int calculateControl(int output, int setPoint){
     // using transfer function calculate the control
+    return 11;
 }
 
 int getOutput() {
@@ -48,7 +49,7 @@ int main (int argc, char * argv[]) {    // used to characterize the dynamics of 
 	int i, j, result;
 	setup();
     flag = TRUE;    // initialize flag to be true to avoid deadlock between two pi
-    
+
 	for(;;) {
         printf("Waiting for interrupt.. ");
         while (!flag);       // wait for interrupt to happen
